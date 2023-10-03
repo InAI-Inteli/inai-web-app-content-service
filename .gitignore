@@ -162,3 +162,7 @@ packages/
 *.vssscc
 *.pidb
 *.ipch/
+
+# Arquivos de desenvolvimento
+appsettings.json
+appsettings.Development.json
