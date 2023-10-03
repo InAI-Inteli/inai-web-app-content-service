@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Validators\" />
+    <Folder Include="Domain\DTOs\" />
+    <Folder Include="Infra\CrossCutting\ExternalServices\" />
+    <Folder Include="Infra\CrossCutting\Validation\" />
+    <Folder Include="Infra\Data\Context\" />
+    <Folder Include="Infra\Data\Mappings\" />
+    <Folder Include="Infra\Data\Repository\" />
+    <Folder Include="Service\Interfaces\" />
+    <Folder Include="Service\Services\" />
+  </ItemGroup>
+
+</Project>
