@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WebAPIContentService.Infra.Data.Context;
+using WebAPIContentService.Infra.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,12 @@ builder.Services.AddDbContext<ContentContext>(options =>
     var configuration = builder.Configuration;
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddControllers()
+               .AddJsonOptions(options =>
+               {
+                   options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+               });
 
 var app = builder.Build();
 

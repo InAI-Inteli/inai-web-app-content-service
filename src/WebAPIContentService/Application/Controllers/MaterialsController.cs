@@ -27,10 +27,12 @@ namespace WebAPIContentService.Application.Controllers
         [HttpPost]
         public async Task<ActionResult<Material>> PostMaterial(Material material)
         {
+            material.CreatedAt = DateTime.Now;
+            material.UpdateAt = DateTime.Now;
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMaterial", new { id = material.IdMaterial }, material);
+            return Ok();
         }
     }
 }
