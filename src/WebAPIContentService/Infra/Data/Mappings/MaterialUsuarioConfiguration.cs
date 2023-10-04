@@ -26,6 +26,14 @@ namespace WebAPIContentService.Infra.Data.Mappings
 
             builder.Property(e => e.Nota).HasColumnName("nota");
 
+            builder.Property(e => e.CreatedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+
+            builder.Property(e => e.UpdateAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("update_at");
+
             builder.Property(e => e.Status)
                 .HasColumnType("character varying")
                 .HasColumnName("status");

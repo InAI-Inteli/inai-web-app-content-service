@@ -13,6 +13,9 @@ namespace WebAPIContentService.Domain.Entities
         public DateOnly? DataEntrega { get; set; }
         public bool? EntregouNoPrazo { get; set; }
 
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
+
         public virtual Material IdMaterialNavigation { get; set; } = null!;
     }
 }
