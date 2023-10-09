@@ -17,7 +17,18 @@ namespace WebAPIContentService.Service.Services
         {
             return await _materialRepository.GetMaterialByIdAsync(id);
         }
+        public async Task InativarMaterialAsync(int id)
+        {
+            var material = await _materialRepository.GetMaterialByIdAsync(id);
 
+            if (material == null)
+            {
+                throw new Exception("Material not found");
+            }
+
+            material.Ativo = false; 
+            await _materialRepository.UpdateMaterialAsync(material);
+        }
         public async Task UpdateMaterialAsync(Material material)
         {
             await _materialRepository.UpdateMaterialAsync(material);

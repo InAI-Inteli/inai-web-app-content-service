@@ -22,6 +22,7 @@ namespace WebAPIContentService.Infra.Data.Repository
         public async Task UpdateMaterialAsync(Material material)
         {
             _context.Entry(material).State = EntityState.Modified;
+            material.UpdateAt = DateTime.Now;
             await _context.SaveChangesAsync();
         }
 

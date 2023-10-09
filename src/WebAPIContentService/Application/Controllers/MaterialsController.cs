@@ -44,20 +44,38 @@ namespace WebAPIContentService.Application.Controllers
             return Ok();
         }
 
-        [HttpPut("inactivate/{id}")]
-        public async Task<IActionResult> InactivateMaterial(int id)
+        [HttpPut("inativar/{id}")]
+        public async Task<IActionResult> InativarMaterial(int id)
         {
-            var material = await _materialService.GetMaterialByIdAsync(id);
-
-            if (material == null)
+            try
+            {
+                await _materialService.InativarMaterialAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
             {
                 return NotFound();
             }
-
-            material.Ativo = false;
-            await _materialService.UpdateMaterialAsync(material);
-
-            return NoContent();
         }
+
+        [HttpPut("editar/{id}")]
+        public async Task<IActionResult> UpdateMaterial(int id, Material material)
+        {
+            if (id != material.IdMaterial)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _materialService.UpdateMaterialAsync(material);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+        }
+
     }
 }
