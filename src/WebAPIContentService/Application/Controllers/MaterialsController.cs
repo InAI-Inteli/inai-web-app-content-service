@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Infra.Data.Context;
+using WebAPIContentService.Service.Interfaces;
 
 namespace WebAPIContentService.Application.Controllers
 {
@@ -9,29 +10,23 @@ namespace WebAPIContentService.Application.Controllers
     [ApiController]
     public class MaterialsController : ControllerBase
     {
-        private readonly ContentContext _context;
+        private readonly IMaterialService _materialService;
 
-        public MaterialsController(ContentContext context)
+        public MaterialsController(IMaterialService materialService)
         {
-            _context = context;
+            _materialService = materialService;
         }
 
-        // GET: /materials
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Material>>> GetMaterials()
         {
-            return await _context.Materials.ToListAsync();
+            return Ok(await _materialService.GetAllMaterialsAsync());
         }
 
-        // POST: /materials
         [HttpPost]
-        public async Task<ActionResult<Material>> PostMaterial(Material material)
+        public async Task<IActionResult> PostMaterial(Material material)
         {
-            material.CreatedAt = DateTime.Now;
-            material.UpdateAt = DateTime.Now;
-            _context.Materials.Add(material);
-            await _context.SaveChangesAsync();
-
+            await _materialService.AddMaterialAsync(material);
             return Ok();
         }
     }

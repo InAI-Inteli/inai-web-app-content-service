@@ -23,12 +23,8 @@
 
   <ItemGroup>
     <Folder Include="Application\Validators\" />
-    <Folder Include="Domain\DTOs\" />
     <Folder Include="Infra\CrossCutting\ExternalServices\" />
     <Folder Include="Infra\CrossCutting\Validation\" />
-    <Folder Include="Infra\Data\Repository\" />
-    <Folder Include="Service\Interfaces\" />
-    <Folder Include="Service\Services\" />
   </ItemGroup>
 
 </Project>

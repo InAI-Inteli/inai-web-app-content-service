@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WebAPIContentService.Infra.Data.Context;
+using WebAPIContentService.Infra.Data.Repository;
+using WebAPIContentService.Infra.Data.Repository.Interfaces;
 using WebAPIContentService.Infra.Tools;
+using WebAPIContentService.Service.Interfaces;
+using WebAPIContentService.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +29,9 @@ builder.Services.AddControllers()
                {
                    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
                });
+
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
+builder.Services.AddScoped<IMaterialService, MaterialService>();
 
 var app = builder.Build();
 
