@@ -13,6 +13,16 @@ namespace WebAPIContentService.Service.Services
             _materialRepository = materialRepository;
         }
 
+        public async Task<Material> GetMaterialByIdAsync(int id)
+        {
+            return await _materialRepository.GetMaterialByIdAsync(id);
+        }
+
+        public async Task UpdateMaterialAsync(Material material)
+        {
+            await _materialRepository.UpdateMaterialAsync(material);
+        }
+
         public async Task<IEnumerable<Material>> GetAllMaterialsAsync()
         {
             return await _materialRepository.GetAllMaterialsAsync();

@@ -14,6 +14,17 @@ namespace WebAPIContentService.Infra.Data.Repository
             _context = context;
         }
 
+        public async Task<Material> GetMaterialByIdAsync(int id)
+        {
+            return await _context.Materials.FirstOrDefaultAsync(m => m.IdMaterial == id);
+        }
+
+        public async Task UpdateMaterialAsync(Material material)
+        {
+            _context.Entry(material).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Material>> GetAllMaterialsAsync()
         {
             return await _context.Materials.ToListAsync();

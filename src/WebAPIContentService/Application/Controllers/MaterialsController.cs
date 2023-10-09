@@ -23,11 +23,41 @@ namespace WebAPIContentService.Application.Controllers
             return Ok(await _materialService.GetAllMaterialsAsync());
         }
 
+        // Consultar um material pelo Id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Material>> GetMaterialById(int id)
+        {
+            var material = await _materialService.GetMaterialByIdAsync(id);
+
+            if (material == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(material);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostMaterial(Material material)
         {
             await _materialService.AddMaterialAsync(material);
             return Ok();
+        }
+
+        [HttpPut("inactivate/{id}")]
+        public async Task<IActionResult> InactivateMaterial(int id)
+        {
+            var material = await _materialService.GetMaterialByIdAsync(id);
+
+            if (material == null)
+            {
+                return NotFound();
+            }
+
+            material.Ativo = false;
+            await _materialService.UpdateMaterialAsync(material);
+
+            return NoContent();
         }
     }
 }
