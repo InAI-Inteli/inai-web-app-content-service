@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebAPIContentService.Domain.Entities;
-using WebAPIContentService.Infra.Data.Context;
 using WebAPIContentService.Service.Interfaces;
 
 namespace WebAPIContentService.Application.Controllers
@@ -35,6 +33,32 @@ namespace WebAPIContentService.Application.Controllers
             }
 
             return Ok(material);
+        }
+
+        [HttpGet("diretoria/{id}")]
+        public async Task<ActionResult<IEnumerable<Material>>> GetMaterialsByIdDiretoriaA(int id)
+        {
+            var materials = await _materialService.GetMaterialsByIdDiretoriaAsync(id);
+
+            if (materials == null || !materials.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(materials);
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Material>>> GetMaterialByTitulo([FromQuery] string titulo)
+        {
+            var materials = await _materialService.GetMaterialByTituloAsync(titulo);
+
+            if (materials == null || !materials.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(materials);
         }
 
         [HttpPost]

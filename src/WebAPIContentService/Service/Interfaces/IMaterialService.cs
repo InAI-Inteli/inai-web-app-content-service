@@ -9,5 +9,7 @@ namespace WebAPIContentService.Service.Interfaces
         Task InativarMaterialAsync(int id);
         Task<IEnumerable<Material>> GetAllMaterialsAsync();
         Task AddMaterialAsync(Material material);
+        Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo);
+        Task<IEnumerable<Material>> GetMaterialsByIdDiretoriaAsync(int idDiretoria);
     }
 }

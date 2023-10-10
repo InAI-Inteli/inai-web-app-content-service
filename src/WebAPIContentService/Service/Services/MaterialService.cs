@@ -1,4 +1,5 @@
-﻿using WebAPIContentService.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
 using WebAPIContentService.Service.Interfaces;
 
@@ -26,7 +27,7 @@ namespace WebAPIContentService.Service.Services
                 throw new Exception("Material not found");
             }
 
-            material.Ativo = false; 
+            material.Ativo = false;
             await _materialRepository.UpdateMaterialAsync(material);
         }
         public async Task UpdateMaterialAsync(Material material)
@@ -43,6 +44,15 @@ namespace WebAPIContentService.Service.Services
         {
             await _materialRepository.AddMaterialAsync(material);
         }
-    }
 
+        public async Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo)
+        {
+            return await _materialRepository.GetMaterialByTituloAsync(titulo);
+        }
+
+        public async Task<IEnumerable<Material>> GetMaterialsByIdDiretoriaAsync(int idDiretoria)
+        {
+            return await _materialRepository.GetMaterialsByIdDiretoriaAsync(idDiretoria);
+        }
+    }
 }

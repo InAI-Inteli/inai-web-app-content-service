@@ -2,6 +2,7 @@
 using WebAPIContentService.Infra.Data.Context;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace WebAPIContentService.Infra.Data.Repository
 {
@@ -37,6 +38,20 @@ namespace WebAPIContentService.Infra.Data.Repository
             material.UpdateAt = DateTime.Now;
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo)
+        {
+            return await _context.Materials
+                .Where(m => m.Titulo.ToLower().Contains(titulo.ToLower()))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Material>> GetMaterialsByIdDiretoriaAsync(int idDiretoria)
+        {
+            return await _context.Materials
+                .Where(m => m.IdDiretoria == idDiretoria)
+                .ToListAsync();
         }
     }
 }
