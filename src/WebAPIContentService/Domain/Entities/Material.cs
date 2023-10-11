@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WebAPIContentService.Domain.Entities
+﻿namespace WebAPIContentService.Domain.Entities
 {
     public partial class Material
     {

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebAPIContentService.Domain.Entities;
+﻿using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
 using WebAPIContentService.Service.Interfaces;
 
@@ -14,7 +13,7 @@ namespace WebAPIContentService.Service.Services
             _materialRepository = materialRepository;
         }
 
-        public async Task<Material> GetMaterialByIdAsync(int id)
+        public async Task<Material?> GetMaterialByIdAsync(int id)
         {
             return await _materialRepository.GetMaterialByIdAsync(id);
         }

@@ -1,8 +1,7 @@
-﻿using WebAPIContentService.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Infra.Data.Context;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace WebAPIContentService.Infra.Data.Repository
 {
@@ -15,7 +14,7 @@ namespace WebAPIContentService.Infra.Data.Repository
             _context = context;
         }
 
-        public async Task<Material> GetMaterialByIdAsync(int id)
+        public async Task<Material?> GetMaterialByIdAsync(int id)
         {
             return await _context.Materials.FirstOrDefaultAsync(m => m.IdMaterial == id);
         }
@@ -42,8 +41,9 @@ namespace WebAPIContentService.Infra.Data.Repository
 
         public async Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo)
         {
+            titulo = titulo?.ToLower() ?? "";
             return await _context.Materials
-                .Where(m => m.Titulo.ToLower().Contains(titulo.ToLower()))
+                .Where(m => m.Titulo != null && m.Titulo.ToLower().Contains(titulo))
                 .ToListAsync();
         }
 

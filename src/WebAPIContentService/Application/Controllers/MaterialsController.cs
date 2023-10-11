@@ -42,7 +42,7 @@ namespace WebAPIContentService.Application.Controllers
 
             if (materials == null || !materials.Any())
             {
-                return NotFound();
+                return Ok(new List<Material>());
             }
 
             return Ok(materials);
@@ -55,7 +55,7 @@ namespace WebAPIContentService.Application.Controllers
 
             if (materials == null || !materials.Any())
             {
-                return NotFound();
+                return Ok(new List<Material>());
             }
 
             return Ok(materials);
@@ -76,7 +76,7 @@ namespace WebAPIContentService.Application.Controllers
                 await _materialService.InativarMaterialAsync(id);
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return NotFound();
             }
@@ -95,7 +95,7 @@ namespace WebAPIContentService.Application.Controllers
                 await _materialService.UpdateMaterialAsync(material);
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return NotFound();
             }
