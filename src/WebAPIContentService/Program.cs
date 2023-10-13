@@ -9,12 +9,11 @@ using WebAPIContentService.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -29,6 +28,8 @@ builder.Services.AddControllers()
                {
                    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
                });
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();

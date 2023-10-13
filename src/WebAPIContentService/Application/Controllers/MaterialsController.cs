@@ -1,4 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using WebAPIContentService.Domain.DTOs.Responses;
+using WebAPIContentService.Domain.DTOs.ViewModels;
 using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Service.Interfaces;
 
@@ -6,74 +9,90 @@ namespace WebAPIContentService.Application.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class MaterialsController : ControllerBase
+    public class MateriaisController : ControllerBase
     {
         private readonly IMaterialService _materialService;
+        private readonly IMapper _mapper;
 
-        public MaterialsController(IMaterialService materialService)
+        public MateriaisController(IMaterialService materialService, IMapper mapper)
         {
             _materialService = materialService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Material>>> GetMaterials()
+        public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterials()
         {
-            return Ok(await _materialService.GetAllMaterialsAsync());
+            var materials = await _materialService.GetAllMaterialsAsync();
+
+            IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
+
+            return Ok(materialsResposta);
         }
 
         // Consultar um material pelo Id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Material>> GetMaterialById(int id)
+        public async Task<ActionResult<MaterialDto>> GetMaterialById(int id)
         {
-            var material = await _materialService.GetMaterialByIdAsync(id);
+            Material? material = await _materialService.GetMaterialByIdAsync(id);
 
             if (material == null)
             {
                 return NotFound();
             }
 
-            return Ok(material);
+            MaterialDto materialResposta = _mapper.Map<MaterialDto>(material);
+
+            return Ok(materialResposta);
         }
 
         [HttpGet("diretoria/{id}")]
-        public async Task<ActionResult<IEnumerable<Material>>> GetMaterialsByIdDiretoriaA(int id)
+        public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterialsByIdDiretoriaA(int id)
         {
-            var materials = await _materialService.GetMaterialsByIdDiretoriaAsync(id);
+            IEnumerable<Material> materials = await _materialService.GetMaterialsByIdDiretoriaAsync(id);
 
             if (materials == null || !materials.Any())
             {
                 return Ok(new List<Material>());
             }
 
-            return Ok(materials);
+            IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
+
+            return Ok(materialsResposta);
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Material>>> GetMaterialByTitulo([FromQuery] string titulo)
+        public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterialByTitulo([FromQuery] string titulo)
         {
-            var materials = await _materialService.GetMaterialByTituloAsync(titulo);
+            IEnumerable<Material> materials = await _materialService.GetMaterialByTituloAsync(titulo);
 
             if (materials == null || !materials.Any())
             {
                 return Ok(new List<Material>());
             }
 
-            return Ok(materials);
+            IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
+
+            return Ok(materialsResposta);
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostMaterial(Material material)
+        public async Task<IActionResult> PostMaterial(MaterialAddViewModel material)
         {
-            await _materialService.AddMaterialAsync(material);
+
+            Material materialEntity = _mapper.Map<Material>(material);
+
+            await _materialService.AddMaterialAsync(materialEntity);
+
             return Ok();
         }
 
-        [HttpPut("inativar/{id}")]
-        public async Task<IActionResult> InativarMaterial(int id)
+        [HttpPut("alterarstatus/{id}")]
+        public async Task<IActionResult> AlterarStatusMaterial(int id)
         {
             try
             {
-                await _materialService.InativarMaterialAsync(id);
+                await _materialService.AlterarStatusMaterialAsync(id);
                 return NoContent();
             }
             catch (Exception)
@@ -83,7 +102,7 @@ namespace WebAPIContentService.Application.Controllers
         }
 
         [HttpPut("editar/{id}")]
-        public async Task<IActionResult> UpdateMaterial(int id, Material material)
+        public async Task<IActionResult> UpdateMaterial(int id, MaterialUpdateViewModel material)
         {
             if (id != material.IdMaterial)
             {
@@ -92,7 +111,8 @@ namespace WebAPIContentService.Application.Controllers
 
             try
             {
-                await _materialService.UpdateMaterialAsync(material);
+                Material materialEntity = _mapper.Map<Material>(material);
+                await _materialService.UpdateMaterialAsync(materialEntity);
                 return NoContent();
             }
             catch (Exception)
