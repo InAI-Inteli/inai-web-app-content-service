@@ -6,9 +6,9 @@ namespace WebAPIContentService.Infra.Data.Repository.Interfaces
     {
         Task<Material?> GetMaterialByIdAsync(int id);
         Task UpdateMaterialAsync(Material material);
-        Task<IEnumerable<Material>> GetAllMaterialsAsync();
+        Task<IEnumerable<Material>> GetAllMateriaisAsync();
         Task AddMaterialAsync(Material material);
         Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo);
-        Task<IEnumerable<Material>> GetMaterialsByIdDiretoriaAsync(int idDiretoria);
+        Task<IEnumerable<Material>> GetMateriaisByIdDiretoriaAsync(int idDiretoria);
     }
 }

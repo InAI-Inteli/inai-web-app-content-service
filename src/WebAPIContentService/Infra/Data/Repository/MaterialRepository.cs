@@ -26,7 +26,7 @@ namespace WebAPIContentService.Infra.Data.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Material>> GetAllMaterialsAsync()
+        public async Task<IEnumerable<Material>> GetAllMateriaisAsync()
         {
             return await _context.Materials.ToListAsync();
         }
@@ -47,7 +47,7 @@ namespace WebAPIContentService.Infra.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Material>> GetMaterialsByIdDiretoriaAsync(int idDiretoria)
+        public async Task<IEnumerable<Material>> GetMateriaisByIdDiretoriaAsync(int idDiretoria)
         {
             return await _context.Materials
                 .Where(m => m.IdDiretoria == idDiretoria)

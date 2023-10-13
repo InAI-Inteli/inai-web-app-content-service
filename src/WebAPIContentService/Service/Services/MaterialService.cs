@@ -34,9 +34,9 @@ namespace WebAPIContentService.Service.Services
             await _materialRepository.UpdateMaterialAsync(material);
         }
 
-        public async Task<IEnumerable<Material>> GetAllMaterialsAsync()
+        public async Task<IEnumerable<Material>> GetAllMateriaisAsync()
         {
-            return await _materialRepository.GetAllMaterialsAsync();
+            return await _materialRepository.GetAllMateriaisAsync();
         }
 
         public async Task AddMaterialAsync(Material material)
@@ -49,9 +49,9 @@ namespace WebAPIContentService.Service.Services
             return await _materialRepository.GetMaterialByTituloAsync(titulo);
         }
 
-        public async Task<IEnumerable<Material>> GetMaterialsByIdDiretoriaAsync(int idDiretoria)
+        public async Task<IEnumerable<Material>> GetMateriaisByIdDiretoriaAsync(int idDiretoria)
         {
-            return await _materialRepository.GetMaterialsByIdDiretoriaAsync(idDiretoria);
+            return await _materialRepository.GetMateriaisByIdDiretoriaAsync(idDiretoria);
         }
     }
 }

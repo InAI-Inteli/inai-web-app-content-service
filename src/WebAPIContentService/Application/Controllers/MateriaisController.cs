@@ -21,13 +21,13 @@ namespace WebAPIContentService.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterials()
+        public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMateriais()
         {
-            var materials = await _materialService.GetAllMaterialsAsync();
+            IEnumerable<Material> materiais = await _materialService.GetAllMateriaisAsync();
 
-            IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
+            IEnumerable<MaterialDto> materiaisResposta = _mapper.Map<IEnumerable<MaterialDto>>(materiais);
 
-            return Ok(materialsResposta);
+            return Ok(materiaisResposta);
         }
 
         // Consultar um material pelo Id
@@ -49,14 +49,14 @@ namespace WebAPIContentService.Application.Controllers
         [HttpGet("diretoria/{id}")]
         public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterialsByIdDiretoriaA(int id)
         {
-            IEnumerable<Material> materials = await _materialService.GetMaterialsByIdDiretoriaAsync(id);
+            IEnumerable<Material> materiais = await _materialService.GetMateriaisByIdDiretoriaAsync(id);
 
-            if (materials == null || !materials.Any())
+            if (materiais == null || !materiais.Any())
             {
                 return Ok(new List<Material>());
             }
 
-            IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
+            IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materiais);
 
             return Ok(materialsResposta);
         }
@@ -120,6 +120,5 @@ namespace WebAPIContentService.Application.Controllers
                 return NotFound();
             }
         }
-
     }
 }

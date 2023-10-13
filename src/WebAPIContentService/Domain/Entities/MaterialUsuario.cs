@@ -12,7 +12,6 @@ namespace WebAPIContentService.Domain.Entities
         public string? Status { get; set; }
         public DateOnly? DataEntrega { get; set; }
         public bool? EntregouNoPrazo { get; set; }
-
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 
