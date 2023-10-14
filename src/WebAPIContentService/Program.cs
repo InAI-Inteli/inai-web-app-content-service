@@ -33,6 +33,8 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
+builder.Services.AddScoped<IMaterialUsuarioRepository, MaterialUsuarioRepository>();
+builder.Services.AddScoped<IMaterialUsuarioService, MaterialUsuarioService>();
 
 var app = builder.Build();
 
