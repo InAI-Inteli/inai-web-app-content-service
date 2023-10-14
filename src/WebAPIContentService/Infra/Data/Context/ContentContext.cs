@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Npgsql;
 using WebAPIContentService.Domain.Entities;
+using WebAPIContentService.Domain.Enumerations;
 using WebAPIContentService.Infra.Data.Mappings;
 
 namespace WebAPIContentService.Infra.Data.Context
@@ -20,6 +22,12 @@ namespace WebAPIContentService.Infra.Data.Context
 
         public virtual DbSet<Material> Materials { get; set; } = null!;
         public virtual DbSet<MaterialUsuario> MaterialUsuarios { get; set; } = null!;
+
+        // Construtor estático para mapear o enum
+        static ContentContext()
+        {
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<StatusEnum>();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
