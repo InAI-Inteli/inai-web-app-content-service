@@ -102,7 +102,7 @@ namespace WebAPIContentService.Tests.Controllers
         }
 
         [Fact]
-        public async Task PostMaterialUsuario_ReturnsOk()
+        public async Task PostMaterialUsuario_ReturnsCreated()
         {
             // Arrange
             var fakeMaterialUsuarioAddViewModel = A.Dummy<MaterialUsuarioAddViewModel>();
@@ -114,11 +114,11 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materialUsuarioController.PostMaterialUsuario(fakeMaterialUsuarioAddViewModel);
 
             // Assert
-            result.Should().BeOfType<OkResult>();
+            result.Should().BeOfType<CreatedResult>();
         }
 
         [Fact]
-        public async Task AlterarStatusMaterial_ReturnsNoContent()
+        public async Task AlterarStatusMaterial_ReturnsOk()
         {
             // Arrange
             int materialUsuarioId = 1;
@@ -129,7 +129,7 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materialUsuarioController.AlterarStatusMaterial(materialUsuarioId, StatusEnum.Concluido);
 
             // Assert
-            result.Should().BeOfType<NoContentResult>();
+            result.Should().BeOfType<OkResult>();
         }
 
         [Fact]

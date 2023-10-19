@@ -152,7 +152,7 @@ namespace WebAPIContentService.Tests.Controllers
         }
 
         [Fact]
-        public async Task PostMaterial_ReturnsOk()
+        public async Task PostMaterial_ReturnsCreated()
         {
             // Arrange
             var fakeMaterialAddViewModel = A.Dummy<MaterialAddViewModel>();
@@ -164,11 +164,11 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materiaisController.PostMaterial(fakeMaterialAddViewModel);
 
             // Assert
-            result.Should().BeOfType<OkResult>();
+            result.Should().BeOfType<CreatedResult>();
         }
 
         [Fact]
-        public async Task AlterarStatusMaterial_ReturnsNoContent()
+        public async Task AlterarStatusMaterial_ReturnsOk()
         {
             // Arrange
             int materialId = 1;
@@ -179,7 +179,7 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materiaisController.AlterarStatusMaterial(materialId);
 
             // Assert
-            result.Should().BeOfType<NoContentResult>();
+            result.Should().BeOfType<OkResult>();
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace WebAPIContentService.Tests.Controllers
         }
 
         [Fact]
-        public async Task UpdateMaterial_ReturnsNoContent()
+        public async Task UpdateMaterial_ReturnsOk()
         {
             // Arrange
             int materialId = 1;
@@ -214,7 +214,7 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materiaisController.UpdateMaterial(materialId, fakeMaterialUpdateViewModel);
 
             // Assert
-            result.Should().BeOfType<NoContentResult>();
+            result.Should().BeOfType<OkResult>();
         }
 
         [Fact]

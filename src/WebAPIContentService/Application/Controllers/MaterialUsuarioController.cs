@@ -21,7 +21,7 @@ namespace WebAPIContentService.Application.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("materiaisusuario/{idUsuario}")]
         public async Task<ActionResult<IEnumerable<MaterialUsuarioDto>>> GetMateriaisUsuario(int idUsuario)
         {
             IEnumerable<MaterialUsuario> materiaisUsuario = await _materialUsuarioService.GetAllMateriaisUsuarioAsync(idUsuario);
@@ -54,7 +54,9 @@ namespace WebAPIContentService.Application.Controllers
 
             await _materialUsuarioService.AddMaterialUsuarioAsync(materialUsuarioEntity);
 
-            return Ok();
+            string resourceUrl = $"/materialusuario/{materialUsuarioEntity.IdMaterialUsuario}";
+
+            return Created(resourceUrl, null);
         }
 
         [HttpPut("alterarstatus/{id}")]
@@ -63,7 +65,7 @@ namespace WebAPIContentService.Application.Controllers
             try
             {
                 await _materialUsuarioService.AlterarStatusMaterialUsuarioAsync(id, status);
-                return NoContent();
+                return Ok();
             }
             catch (Exception)
             {

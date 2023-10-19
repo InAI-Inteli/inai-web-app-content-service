@@ -30,7 +30,6 @@ namespace WebAPIContentService.Application.Controllers
             return Ok(materiaisResposta);
         }
 
-        // Consultar um material pelo Id
         [HttpGet("{id}")]
         public async Task<ActionResult<MaterialDto>> GetMaterialById(int id)
         {
@@ -66,11 +65,6 @@ namespace WebAPIContentService.Application.Controllers
         {
             IEnumerable<Material> materials = await _materialService.GetMaterialByTituloAsync(titulo);
 
-            if (materials == null || !materials.Any())
-            {
-                return Ok(new List<Material>());
-            }
-
             IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
 
             return Ok(materialsResposta);
@@ -84,7 +78,9 @@ namespace WebAPIContentService.Application.Controllers
 
             await _materialService.AddMaterialAsync(materialEntity);
 
-            return Ok();
+            string resourceUrl = $"/materiais/{materialEntity.IdMaterial}";
+
+            return Created(resourceUrl, null);
         }
 
         [HttpPut("alterarstatus/{id}")]
@@ -93,7 +89,7 @@ namespace WebAPIContentService.Application.Controllers
             try
             {
                 await _materialService.AlterarStatusMaterialAsync(id);
-                return NoContent();
+                return Ok();
             }
             catch (Exception)
             {
@@ -113,7 +109,7 @@ namespace WebAPIContentService.Application.Controllers
             {
                 Material materialEntity = _mapper.Map<Material>(material);
                 await _materialService.UpdateMaterialAsync(materialEntity);
-                return NoContent();
+                return Ok();
             }
             catch (Exception)
             {
