@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WebAPIContentService.Domain.Enumerations;
 
 namespace WebAPIContentService.Domain.Entities
 {
@@ -7,12 +8,11 @@ namespace WebAPIContentService.Domain.Entities
     {
         public int IdUsuario { get; set; }
         public int IdMaterial { get; set; }
-        public int IdMaterialusuario { get; set; }
+        public int IdMaterialUsuario { get; set; }
         public int? Nota { get; set; }
-        public string? Status { get; set; }
+        public StatusEnum Status { get; set; }
         public DateOnly? DataEntrega { get; set; }
         public bool? EntregouNoPrazo { get; set; }
-
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 

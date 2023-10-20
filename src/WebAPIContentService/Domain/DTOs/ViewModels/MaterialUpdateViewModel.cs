@@ -1,12 +1,7 @@
-﻿namespace WebAPIContentService.Domain.Entities
+﻿namespace WebAPIContentService.Domain.DTOs.ViewModels
 {
-    public partial class Material
+    public class MaterialUpdateViewModel
     {
-        public Material()
-        {
-            MaterialUsuarios = new HashSet<MaterialUsuario>();
-        }
-
         public int IdMaterial { get; set; }
         public string? Titulo { get; set; }
         public string? Descricao { get; set; }
@@ -17,10 +12,5 @@
         public string? Url { get; set; }
         public int? PesoNota { get; set; }
         public int IdDiretoria { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdateAt { get; set; }
-        public int CreatedBy { get; set; }
-
-        public virtual ICollection<MaterialUsuario> MaterialUsuarios { get; set; }
     }
 }
