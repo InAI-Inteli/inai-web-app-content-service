@@ -24,6 +24,11 @@ namespace WebAPIContentService.Application.Controllers
         [HttpGet("materiaisusuario/{idUsuario}")]
         public async Task<ActionResult<IEnumerable<MaterialUsuarioDto>>> GetMateriaisUsuario(int idUsuario)
         {
+            if (idUsuario <= 0)
+            {
+                return BadRequest("ID de material de usuario invalido");
+            }
+
             IEnumerable<MaterialUsuario> materiaisUsuario = await _materialUsuarioService.GetAllMateriaisUsuarioAsync(idUsuario);
 
             IEnumerable<MaterialUsuarioDto> materiaisUsuarioResposta = _mapper.Map<IEnumerable<MaterialUsuarioDto>>(materiaisUsuario);
@@ -32,10 +37,15 @@ namespace WebAPIContentService.Application.Controllers
         }
 
         // Consultar um material pelo Id
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MaterialUsuarioDto>> GetMaterialUsuarioById(int id)
+        [HttpGet("{idMaterialUsuario}")]
+        public async Task<ActionResult<MaterialUsuarioDto>> GetMaterialUsuarioById(int idMaterialUsuario)
         {
-            MaterialUsuario? materialUsuario = await _materialUsuarioService.GetMaterialUsuarioByIdAsync(id);
+            if (idMaterialUsuario <= 0)
+            {
+                return BadRequest("ID de material de usuario invalido");
+            }
+
+            MaterialUsuario? materialUsuario = await _materialUsuarioService.GetMaterialUsuarioByIdAsync(idMaterialUsuario);
 
             if (materialUsuario == null)
             {
@@ -50,6 +60,12 @@ namespace WebAPIContentService.Application.Controllers
         [HttpPost]
         public async Task<IActionResult> PostMaterialUsuario(MaterialUsuarioAddViewModel materialUsuario)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(errors);
+            }
+
             MaterialUsuario materialUsuarioEntity = _mapper.Map<MaterialUsuario>(materialUsuario);
 
             await _materialUsuarioService.AddMaterialUsuarioAsync(materialUsuarioEntity);
@@ -60,8 +76,18 @@ namespace WebAPIContentService.Application.Controllers
         }
 
         [HttpPut("alterarstatus/{id}")]
-        public async Task<IActionResult> AlterarStatusMaterial(int id, StatusEnum status)
+        public async Task<IActionResult> AlterarStatusMaterial(int id, [FromBody] StatusEnum status)
         {
+            if (id <= 0)
+            {
+                return BadRequest("ID de material de usuario invalido");
+            }
+
+            if (!Enum.IsDefined(typeof(StatusEnum), status))
+            {
+                return BadRequest("Status invalido");
+            }
+
             try
             {
                 await _materialUsuarioService.AlterarStatusMaterialUsuarioAsync(id, status);

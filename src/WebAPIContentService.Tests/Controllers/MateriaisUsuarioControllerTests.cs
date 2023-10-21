@@ -118,6 +118,20 @@ namespace WebAPIContentService.Tests.Controllers
         }
 
         [Fact]
+        public async Task PostMaterialUsuario_ReturnsBadRequest()
+        {
+            // Arrange
+            var fakeInvalidMaterialUsuarioAddViewModel = new MaterialUsuarioAddViewModel();
+            _materialUsuarioController.ModelState.AddModelError("IdUsuario", "IdUsuario Invalido"); 
+
+            // Act
+            var result = await _materialUsuarioController.PostMaterialUsuario(fakeInvalidMaterialUsuarioAddViewModel);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
+        [Fact]
         public async Task AlterarStatusMaterial_ReturnsOk()
         {
             // Arrange
@@ -130,6 +144,36 @@ namespace WebAPIContentService.Tests.Controllers
 
             // Assert
             result.Should().BeOfType<OkResult>();
+        }
+
+        [Fact]
+        public async Task AlterarStatusMaterial_ReturnsBadRequest_WhenIdInvalid()
+        {
+            // Arrange
+            int invalidId = 0;
+            var invalidStatus = StatusEnum.Pendente;
+
+            // Act
+            var result = await _materialUsuarioController.AlterarStatusMaterial(invalidId, invalidStatus);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>().Value.Should().Be("ID de material de usuario invalido");
+        }
+
+        [Fact]
+        public async Task AlterarStatusMaterial_ReturnsBadRequest_WhenStatusIsInvalid()
+        {
+            // Arrange
+            int validId = 1;
+            StatusEnum invalidStatus = (StatusEnum)100; // Define um status invalido
+
+            // Act
+            var result = await _materialUsuarioController.AlterarStatusMaterial(validId, invalidStatus);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>().Value.Should().Be("Status invalido");
         }
 
         [Fact]

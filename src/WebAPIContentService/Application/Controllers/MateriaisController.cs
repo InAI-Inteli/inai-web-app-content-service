@@ -30,9 +30,14 @@ namespace WebAPIContentService.Application.Controllers
             return Ok(materiaisResposta);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<MaterialDto>> GetMaterialById(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("ID de material invalido");
+            }
+
             Material? material = await _materialService.GetMaterialByIdAsync(id);
 
             if (material == null)
@@ -48,21 +53,26 @@ namespace WebAPIContentService.Application.Controllers
         [HttpGet("diretoria/{id}")]
         public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterialsByIdDiretoriaA(int id)
         {
-            IEnumerable<Material> materiais = await _materialService.GetMateriaisByIdDiretoriaAsync(id);
-
-            if (materiais == null || !materiais.Any())
+            if (id <= 0)
             {
-                return Ok(new List<Material>());
+                return BadRequest("ID de diretoria invalido");
             }
+
+            IEnumerable<Material> materiais = await _materialService.GetMateriaisByIdDiretoriaAsync(id);
 
             IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materiais);
 
             return Ok(materialsResposta);
         }
 
-        [HttpGet("search")]
+        [HttpGet("search:string")]
         public async Task<ActionResult<IEnumerable<MaterialDto>>> GetMaterialByTitulo([FromQuery] string titulo)
         {
+            if (string.IsNullOrWhiteSpace(titulo))
+            {
+                return BadRequest("O parametro 'titulo' e invalido ou em branco.");
+            }
+
             IEnumerable<Material> materials = await _materialService.GetMaterialByTituloAsync(titulo);
 
             IEnumerable<MaterialDto> materialsResposta = _mapper.Map<IEnumerable<MaterialDto>>(materials);
@@ -73,6 +83,11 @@ namespace WebAPIContentService.Application.Controllers
         [HttpPost]
         public async Task<IActionResult> PostMaterial(MaterialAddViewModel material)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(errors);
+            }
 
             Material materialEntity = _mapper.Map<Material>(material);
 
@@ -83,9 +98,14 @@ namespace WebAPIContentService.Application.Controllers
             return Created(resourceUrl, null);
         }
 
-        [HttpPut("alterarstatus/{id}")]
+        [HttpPut("alterarstatus/{id:int}")]
         public async Task<IActionResult> AlterarStatusMaterial(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("ID de material invalido");
+            }
+
             try
             {
                 await _materialService.AlterarStatusMaterialAsync(id);
@@ -97,12 +117,18 @@ namespace WebAPIContentService.Application.Controllers
             }
         }
 
-        [HttpPut("editar/{id}")]
+        [HttpPut("editar/{id:int}")]
         public async Task<IActionResult> UpdateMaterial(int id, MaterialUpdateViewModel material)
         {
-            if (id != material.IdMaterial)
+            if (id <= 0 || id != material.IdMaterial)
             {
-                return BadRequest();
+                return BadRequest("ID de material invalido ou incompativel.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(errors);
             }
 
             try

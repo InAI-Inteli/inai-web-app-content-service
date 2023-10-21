@@ -168,6 +168,20 @@ namespace WebAPIContentService.Tests.Controllers
         }
 
         [Fact]
+        public async Task PostMaterial_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            // Arrange
+            var fakeInvalidMaterialAddViewModel = new MaterialAddViewModel();
+            _materiaisController.ModelState.AddModelError("titulo", "titulo em branco");
+
+            // Act
+            var result = await _materiaisController.PostMaterial(fakeInvalidMaterialAddViewModel);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
+        [Fact]
         public async Task AlterarStatusMaterial_ReturnsOk()
         {
             // Arrange
@@ -233,7 +247,7 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materiaisController.UpdateMaterial(materialId, fakeMaterialUpdateViewModel);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
