@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using WebAPIContentService.Infra.Data.Context;
 using WebAPIContentService.Infra.Data.Repository;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
+using WebAPIContentService.Infra.Data.UnitOfWork;
 using WebAPIContentService.Infra.Tools;
 using WebAPIContentService.Service.Interfaces;
 using WebAPIContentService.Service.Services;
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IMaterialUsuarioRepository, MaterialUsuarioRepository>();
 builder.Services.AddScoped<IMaterialUsuarioService, MaterialUsuarioService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

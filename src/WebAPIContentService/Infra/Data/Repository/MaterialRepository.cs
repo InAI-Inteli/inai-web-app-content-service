@@ -19,11 +19,10 @@ namespace WebAPIContentService.Infra.Data.Repository
             return await _context.Materials.FirstOrDefaultAsync(m => m.IdMaterial == id);
         }
 
-        public async Task UpdateMaterialAsync(Material material)
+        public void UpdateMaterial(Material material)
         {
             _context.Entry(material).State = EntityState.Modified;
             material.UpdateAt = DateTime.Now;
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Material>> GetAllMateriaisAsync()
@@ -31,12 +30,11 @@ namespace WebAPIContentService.Infra.Data.Repository
             return await _context.Materials.ToListAsync();
         }
 
-        public async Task AddMaterialAsync(Material material)
+        public void AddMaterial(Material material)
         {
             material.CreatedAt = DateTime.Now;
             material.UpdateAt = DateTime.Now;
             _context.Materials.Add(material);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo)

@@ -1,5 +1,6 @@
 ﻿using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
+using WebAPIContentService.Infra.Data.UnitOfWork;
 using WebAPIContentService.Service.Interfaces;
 
 namespace WebAPIContentService.Service.Services
@@ -7,10 +8,12 @@ namespace WebAPIContentService.Service.Services
     public class MaterialService : IMaterialService
     {
         private readonly IMaterialRepository _materialRepository;
+        private readonly IUnitOfWork _uow;
 
-        public MaterialService(IMaterialRepository materialRepository)
+        public MaterialService(IMaterialRepository materialRepository, IUnitOfWork uow)
         {
             _materialRepository = materialRepository;
+            _uow = uow;
         }
 
         public async Task<Material?> GetMaterialByIdAsync(int id)
@@ -27,11 +30,13 @@ namespace WebAPIContentService.Service.Services
             }
 
             material.Ativo = !material.Ativo;
-            await _materialRepository.UpdateMaterialAsync(material);
+            _materialRepository.UpdateMaterial(material);
+            await _uow.Commit();
         }
         public async Task UpdateMaterialAsync(Material material)
         {
-            await _materialRepository.UpdateMaterialAsync(material);
+            _materialRepository.UpdateMaterial(material);
+            await _uow.Commit();
         }
 
         public async Task<IEnumerable<Material>> GetAllMateriaisAsync()
@@ -41,7 +46,8 @@ namespace WebAPIContentService.Service.Services
 
         public async Task AddMaterialAsync(Material material)
         {
-            await _materialRepository.AddMaterialAsync(material);
+            _materialRepository.AddMaterial(material);
+            await _uow.Commit();
         }
 
         public async Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo)
