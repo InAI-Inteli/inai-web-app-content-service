@@ -5,8 +5,8 @@ namespace WebAPIContentService.Infra.Data.Repository.Interfaces
     public interface IMaterialUsuarioRepository
     {
         Task<MaterialUsuario?> GetMaterialUsuarioByIdAsync(int idMaterialUsuario);
-        Task UpdateMaterialUsuarioAsync(MaterialUsuario material);
+        void UpdateMaterialUsuario(MaterialUsuario material);
         Task<IEnumerable<MaterialUsuario>> GetAllMateriaisUsuarioAsync(int idUsuario);
-        Task AddMaterialUsuarioAsync(MaterialUsuario materialUsuario);
+        void AddMaterialUsuario(MaterialUsuario materialUsuario);
     }
 }

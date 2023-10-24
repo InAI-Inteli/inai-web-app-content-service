@@ -19,11 +19,10 @@ namespace WebAPIContentService.Infra.Data.Repository
             return await _context.MaterialUsuarios.FirstOrDefaultAsync(m => m.IdMaterialUsuario == idMaterialUsuario);
         }
 
-        public async Task UpdateMaterialUsuarioAsync(MaterialUsuario materialUsuario)
+        public void UpdateMaterialUsuario(MaterialUsuario materialUsuario)
         {
             _context.Entry(materialUsuario).State = EntityState.Modified;
             materialUsuario.UpdateAt = DateTime.Now;
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<MaterialUsuario>> GetAllMateriaisUsuarioAsync(int idUsuario)
@@ -31,12 +30,11 @@ namespace WebAPIContentService.Infra.Data.Repository
             return await _context.MaterialUsuarios.Where(m => m.IdUsuario == idUsuario).ToListAsync();
         }
 
-        public async Task AddMaterialUsuarioAsync(MaterialUsuario materialUsuario)
+        public void AddMaterialUsuario(MaterialUsuario materialUsuario)
         {
             materialUsuario.CreatedAt = DateTime.Now;
             materialUsuario.UpdateAt = DateTime.Now;
             _context.MaterialUsuarios.Add(materialUsuario);
-            await _context.SaveChangesAsync();
         }
     }
 }
