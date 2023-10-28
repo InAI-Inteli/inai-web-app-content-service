@@ -85,8 +85,13 @@ namespace WebAPIContentService.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                IEnumerable<string> errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
                 return BadRequest(errors);
+            }
+            
+            if (await _materialService.MaterialMesmoNomeAsync(material.Titulo))
+            {
+                return BadRequest("Já existe um material com o mesmo nome cadastrado.");
             }
 
             Material materialEntity = _mapper.Map<Material>(material);

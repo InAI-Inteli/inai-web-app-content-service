@@ -59,5 +59,10 @@ namespace WebAPIContentService.Service.Services
         {
             return await _materialRepository.GetMateriaisByIdDiretoriaAsync(idDiretoria);
         }
+
+        public async Task<bool> MaterialMesmoNomeAsync(String nome)
+        {
+            return await _materialRepository.MaterialMesmoNomeAsync(nome);
+        }
     }
 }

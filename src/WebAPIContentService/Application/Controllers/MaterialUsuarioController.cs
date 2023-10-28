@@ -13,11 +13,13 @@ namespace WebAPIContentService.Application.Controllers
     public class MaterialUsuarioController : ControllerBase
     {
         private readonly IMaterialUsuarioService _materialUsuarioService;
+        private readonly IMaterialService _materialService;
         private readonly IMapper _mapper;
 
-        public MaterialUsuarioController(IMaterialUsuarioService materialService, IMapper mapper)
+        public MaterialUsuarioController(IMaterialUsuarioService materialUsuarioService, IMaterialService materialService, IMapper mapper)
         {
-            _materialUsuarioService = materialService;
+            _materialUsuarioService = materialUsuarioService;
+            _materialService = materialService;
             _mapper = mapper;
         }
 

@@ -9,12 +9,12 @@ namespace WebAPIContentService.Infra.Data.Mappings
         public void Configure(EntityTypeBuilder<MaterialUsuario> builder)
         {
             builder.HasKey(e => e.IdMaterialUsuario)
-                .HasName("material_usuario_pkey");
+                .HasName("materiais_usuarios_pkey");
 
-            builder.ToTable("material_usuario");
+            builder.ToTable("materiais_usuarios");
 
             // Configuração das propriedades da entidade MaterialUsuario
-            builder.Property(e => e.IdMaterialUsuario).HasColumnName("id_materialusuario");
+            builder.Property(e => e.IdMaterialUsuario).HasColumnName("id");
 
             builder.Property(e => e.DataEntrega).HasColumnName("data_entrega");
 
@@ -32,7 +32,7 @@ namespace WebAPIContentService.Infra.Data.Mappings
 
             builder.Property(e => e.UpdateAt)
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("update_at");
+                .HasColumnName("updated_at");
 
             builder.Property(e => e.Status)
                 .HasColumnType("status_enum")
