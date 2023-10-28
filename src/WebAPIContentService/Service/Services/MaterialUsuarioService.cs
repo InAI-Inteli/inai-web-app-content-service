@@ -1,6 +1,5 @@
 ﻿using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Domain.Enumerations;
-using WebAPIContentService.Infra.Data.Repository;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
 using WebAPIContentService.Infra.Data.UnitOfWork;
 using WebAPIContentService.Service.Interfaces;

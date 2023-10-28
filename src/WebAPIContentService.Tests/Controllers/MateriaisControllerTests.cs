@@ -2,7 +2,6 @@
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WebAPIContentService.Application.Controllers;
 using WebAPIContentService.Domain.DTOs.Responses;
 using WebAPIContentService.Domain.DTOs.ViewModels;
@@ -112,7 +111,7 @@ namespace WebAPIContentService.Tests.Controllers
             var result = await _materiaisController.GetMaterialsByIdDiretoriaA(diretoriaId);
 
             // Assert
-            result.Should().BeOfType <ActionResult<IEnumerable<MaterialDto>>>();
+            result.Should().BeOfType<ActionResult<IEnumerable<MaterialDto>>>();
 
             var actionResult = result.As<ActionResult<IEnumerable<MaterialDto>>>();
             actionResult.Result.Should().BeOfType<OkObjectResult>();
@@ -238,7 +237,7 @@ namespace WebAPIContentService.Tests.Controllers
             int materialId = 3;
             var fakeMaterialUpdateViewModel = new MaterialUpdateViewModel
             {
-                IdMaterial = 4,                    
+                IdMaterial = 4,
             };
 
             A.CallTo(() => _materialService.UpdateMaterialAsync(A<Material>.Ignored))!.Returns(null);
@@ -267,6 +266,23 @@ namespace WebAPIContentService.Tests.Controllers
 
             // Assert
             result.Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task PostMaterial_ReturnsBadRequest_WhenMaterialWithSameNameExists()
+        {
+            // Arrange
+            string materialName = "Material Duplicado";
+            MaterialAddViewModel material = new MaterialAddViewModel { Titulo = materialName };
+
+            A.CallTo(() => _materialService.MaterialMesmoNomeAsync(materialName)).Returns(true);
+
+            // Act
+            var result = await _materiaisController.PostMaterial(material);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>().Value.Should().Be("Já existe um material com o mesmo nome cadastrado.");
         }
 
         private static Material CreateFakeMaterial(int id, string titulo, string descricao, bool ativo, DateOnly dataFinal, bool obrigatorio, string tipo, string url, int pesoNota, int idDiretoria)
