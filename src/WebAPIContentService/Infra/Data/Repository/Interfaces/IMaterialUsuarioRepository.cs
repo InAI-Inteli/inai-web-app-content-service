@@ -8,5 +8,6 @@ namespace WebAPIContentService.Infra.Data.Repository.Interfaces
         void UpdateMaterialUsuario(MaterialUsuario material);
         Task<IEnumerable<MaterialUsuario>> GetAllMateriaisUsuarioAsync(int idUsuario);
         void AddMaterialUsuario(MaterialUsuario materialUsuario);
+        Task<bool> MaterialExisteAsync(int id);
     }
 }

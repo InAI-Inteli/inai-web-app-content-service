@@ -9,5 +9,6 @@ namespace WebAPIContentService.Service.Interfaces
         Task AlterarStatusMaterialUsuarioAsync(int id, StatusEnum status);
         Task<IEnumerable<MaterialUsuario>> GetAllMateriaisUsuarioAsync(int idUsuario);
         Task AddMaterialUsuarioAsync(MaterialUsuario materialUsuario);
+        Task<bool> MaterialExisteAsync(int id);
     }
 }

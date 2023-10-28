@@ -36,5 +36,9 @@ namespace WebAPIContentService.Infra.Data.Repository
             materialUsuario.UpdateAt = DateTime.Now;
             _context.MaterialUsuarios.Add(materialUsuario);
         }
+        public async Task<bool> MaterialExisteAsync(int id)
+        {
+            return await _context.Materials.AnyAsync(m => m.IdMaterial == id);
+        }
     }
 }

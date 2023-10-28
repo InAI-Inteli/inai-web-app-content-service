@@ -67,6 +67,15 @@ namespace WebAPIContentService.Application.Controllers
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
                 return BadRequest(errors);
             }
+            if (materialUsuario.IdMaterial == null)
+            {
+                return BadRequest("O ID de material é obrigatório.");
+            }
+
+            if (!await _materialUsuarioService.MaterialExisteAsync(materialUsuario.IdMaterial.Value))
+            {
+                return BadRequest("O material especificado não existe.");
+            }
 
             MaterialUsuario materialUsuarioEntity = _mapper.Map<MaterialUsuario>(materialUsuario);
 
