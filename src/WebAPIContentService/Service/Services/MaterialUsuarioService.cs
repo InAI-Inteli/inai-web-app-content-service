@@ -44,5 +44,9 @@ namespace WebAPIContentService.Service.Services
         {
             return await _materialUsuarioRepository.MaterialExisteAsync(id);
         }
+        public async Task<bool> UsuarioJaPossuiMaterialAsync(int idUsuario, int idMaterial)
+        {
+            return await _materialUsuarioRepository.UsuarioJaPossuiMaterialAsync(idUsuario, idMaterial);
+        }
     }
 }

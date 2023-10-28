@@ -13,13 +13,11 @@ namespace WebAPIContentService.Application.Controllers
     public class MaterialUsuarioController : ControllerBase
     {
         private readonly IMaterialUsuarioService _materialUsuarioService;
-        private readonly IMaterialService _materialService;
         private readonly IMapper _mapper;
 
-        public MaterialUsuarioController(IMaterialUsuarioService materialUsuarioService, IMaterialService materialService, IMapper mapper)
+        public MaterialUsuarioController(IMaterialUsuarioService materialUsuarioService, IMapper mapper)
         {
             _materialUsuarioService = materialUsuarioService;
-            _materialService = materialService;
             _mapper = mapper;
         }
 
@@ -67,14 +65,13 @@ namespace WebAPIContentService.Application.Controllers
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
                 return BadRequest(errors);
             }
-            if (materialUsuario.IdMaterial == null)
-            {
-                return BadRequest("O ID de material é obrigatório.");
-            }
-
-            if (!await _materialUsuarioService.MaterialExisteAsync(materialUsuario.IdMaterial.Value))
+            if (!await _materialUsuarioService.MaterialExisteAsync(materialUsuario.IdMaterial.GetValueOrDefault()))
             {
                 return BadRequest("O material especificado não existe.");
+            }
+            if (await _materialUsuarioService.UsuarioJaPossuiMaterialAsync(materialUsuario.IdUsuario.GetValueOrDefault(), materialUsuario.IdMaterial.GetValueOrDefault()))
+            {
+                return BadRequest("O usuário já possui esse material.");
             }
 
             MaterialUsuario materialUsuarioEntity = _mapper.Map<MaterialUsuario>(materialUsuario);
