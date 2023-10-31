@@ -2,9 +2,6 @@
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using WebAPIContentService.Application.Controllers;
 using WebAPIContentService.Domain.DTOs.Responses;
 using WebAPIContentService.Domain.DTOs.ViewModels;
@@ -122,7 +119,7 @@ namespace WebAPIContentService.Tests.Controllers
         {
             // Arrange
             var fakeInvalidMaterialUsuarioAddViewModel = new MaterialUsuarioAddViewModel();
-            _materialUsuarioController.ModelState.AddModelError("IdUsuario", "IdUsuario Invalido"); 
+            _materialUsuarioController.ModelState.AddModelError("IdUsuario", "IdUsuario Invalido");
 
             // Act
             var result = await _materialUsuarioController.PostMaterialUsuario(fakeInvalidMaterialUsuarioAddViewModel);
@@ -190,6 +187,52 @@ namespace WebAPIContentService.Tests.Controllers
             // Assert
             result.Should().BeOfType<NotFoundResult>();
         }
+
+        [Fact]
+        public async Task PostMaterialUsuario_ReturnsBadRequest_WhenUserAlreadyHasMaterial()
+        {
+            // Arrange
+            int userId = 1;
+            int materialId = 2;
+            MaterialUsuarioAddViewModel materialUsuario = new MaterialUsuarioAddViewModel
+            {
+                IdUsuario = userId,
+                IdMaterial = materialId
+            };
+
+            A.CallTo(() => _materialUsuarioService.UsuarioJaPossuiMaterialAsync(userId, materialId)).Returns(true);
+
+            // Act
+            var result = await _materialUsuarioController.PostMaterialUsuario(materialUsuario);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>().Value.Should().Be("O usuário já possui esse material.");
+        }
+
+
+        [Fact]
+        public async Task PostMaterialUsuario_ReturnsBadRequest_WhenMaterialDoesNotExist()
+        {
+            // Arrange
+            int userId = 1;
+            int materialId = 2;
+            MaterialUsuarioAddViewModel materialUsuario = new MaterialUsuarioAddViewModel
+            {
+                IdUsuario = userId,
+                IdMaterial = materialId
+            };
+
+            A.CallTo(() => _materialUsuarioService.MaterialExisteAsync(materialId)).Returns(false);
+
+            // Act
+            var result = await _materialUsuarioController.PostMaterialUsuario(materialUsuario);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>().Value.Should().Be("O material especificado não existe.");
+        }
+
 
         private static MaterialUsuario CreateFakeMaterialUsuario(int idMaterial, int idUsuario, StatusEnum status)
         {

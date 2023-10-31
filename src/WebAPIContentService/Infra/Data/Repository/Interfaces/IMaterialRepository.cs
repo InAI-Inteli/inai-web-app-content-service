@@ -10,5 +10,6 @@ namespace WebAPIContentService.Infra.Data.Repository.Interfaces
         void AddMaterial(Material material);
         Task<IEnumerable<Material>> GetMaterialByTituloAsync(string titulo);
         Task<IEnumerable<Material>> GetMateriaisByIdDiretoriaAsync(int idDiretoria);
+        Task<bool> MaterialMesmoNomeAsync(string nome);
     }
 }

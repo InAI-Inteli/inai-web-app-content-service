@@ -51,5 +51,9 @@ namespace WebAPIContentService.Infra.Data.Repository
                 .Where(m => m.IdDiretoria == idDiretoria)
                 .ToListAsync();
         }
+        public async Task<bool> MaterialMesmoNomeAsync(string nome)
+        {
+            return await _context.Set<Material>().AnyAsync(m => m.Titulo == nome);
+        }
     }
 }

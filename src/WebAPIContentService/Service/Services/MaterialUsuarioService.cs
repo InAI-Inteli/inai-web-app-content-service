@@ -1,6 +1,5 @@
 ﻿using WebAPIContentService.Domain.Entities;
 using WebAPIContentService.Domain.Enumerations;
-using WebAPIContentService.Infra.Data.Repository;
 using WebAPIContentService.Infra.Data.Repository.Interfaces;
 using WebAPIContentService.Infra.Data.UnitOfWork;
 using WebAPIContentService.Service.Interfaces;
@@ -39,6 +38,14 @@ namespace WebAPIContentService.Service.Services
         public async Task<MaterialUsuario?> GetMaterialUsuarioByIdAsync(int idMaterialUsuario)
         {
             return await _materialUsuarioRepository.GetMaterialUsuarioByIdAsync(idMaterialUsuario);
+        }
+        public async Task<bool> MaterialExisteAsync(int id)
+        {
+            return await _materialUsuarioRepository.MaterialExisteAsync(id);
+        }
+        public async Task<bool> UsuarioJaPossuiMaterialAsync(int idUsuario, int idMaterial)
+        {
+            return await _materialUsuarioRepository.UsuarioJaPossuiMaterialAsync(idUsuario, idMaterial);
         }
     }
 }
